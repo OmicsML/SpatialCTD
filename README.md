@@ -43,7 +43,7 @@ A few required inputs are as below:
 
 ## Citation
 
-If you find our work useful in your research, please consider citing our DANCE package or survey paper:
+If you find our work useful in your research, please consider citing our SpatialCTD paper:
 
 ```bibtex
 @article{ding2023spatialctd,
