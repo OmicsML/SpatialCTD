@@ -2,6 +2,12 @@
 
 ## SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology. [[paper]](https://www.biorxiv.org/content/10.1101/2023.04.11.536333v1)[[supplementary]](https://www.biorxiv.org/content/10.1101/2023.04.11.536333v1.supplementary-material)
 
+
+## NEWS
+* [04/2023] Human Lung and Liver datasets in SpatialCTD v1 are released!
+
+## SpatialCTD
+
 SpatialCTD is a large-scale spatial transcriptomic dataset encompassing 1.8 million cells from the human tumor microenvironment across the lung, kidney, and liver. The ST datasets used for CTD in SpatialCTD v1 are generated from real spatial transcriptomic datasets via gridded spots method. 
 
 For each sample in SpatialCTD, it includes:
@@ -14,5 +20,12 @@ The dataset generation workflow and summary are as follows:
 
 <img src="/images/figure_1_dataset.jpg" alt="pdf-image" width="50%">
 For thorough details, see the preprint: [[Biorxiv]](https://www.biorxiv.org/content/10.1101/2023.04.11.536333v1)
+
+
+## SpatialCTD online converter Tool
+
+
+## GNNDeconvolver
+
 
 
