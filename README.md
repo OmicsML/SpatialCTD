@@ -41,3 +41,18 @@ A few required inputs are as below:
 <img src="/images/GNN.jpg" alt="pdf-image" width="50%">
 
 
+## Citation
+
+If you find our work useful in your research, please consider citing our DANCE package or survey paper:
+
+```bibtex
+@article{ding2023spatialctd,
+  title={SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology},
+  author={Ding, Jiayuan and Venegas, Julian and Lu, Qiaolin and Wang, Yixin and Wu, Lidan and Jin, Wei and Wen, Hongzhi and Liu, Renming and Tang, Wenzhuo and Li, Zhaoheng and others},
+  journal={bioRxiv},
+  pages={2023--04},
+  year={2023},
+  publisher={Cold Spring Harbor Laboratory}
+}
+}
+```
