@@ -24,6 +24,15 @@ For thorough details, see the preprint: [[Biorxiv]](https://www.biorxiv.org/cont
 
 
 ## SpatialCTD online converter Tool
+To ease the process of converting spatial transcriptomics data at single-cell resolution to pseudo spots for benchmarking cell type deconvolution, we have developed a web-based online conversion tool. The online converter tool can be accessed at [[website]](https://omicsml.github.io/SpatialCTD/)
+
+A few required inputs are as below:
+- Coordinates of single-cell local in FOV file: contains single-cell level coordinates local in field of view (FOV).
+- Coordinates of FOV file: indicates the coordinates of FOV in the slide, which is the spatial coordinates of the center point of each FOV.
+- Single-cell level gene expression file (optional)
+- Single-cell level cell type file (optional)
+- FOV size: specifies the pixel size of each FOV
+- Pseudo spot split in one FOV: specifies how the spots in the FOV are divided to further defines the size of pseudo spot.
 
 <img src="/images/converter.jpg" alt="pdf-image" width="50%">
 
