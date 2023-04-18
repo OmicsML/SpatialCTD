@@ -24,8 +24,10 @@ For thorough details, see the preprint: [[Biorxiv]](https://www.biorxiv.org/cont
 
 ## SpatialCTD online converter Tool
 
+<img src="/images/converter.jpg" alt="pdf-image" width="50%">
 
 ## GNNDeconvolver
 
+<img src="/images/GNN.jpg" alt="pdf-image" width="50%">
 
 
