@@ -1,79 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            width: 100%;
-            height: 100%;
-            text-align:center;
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+    }
 
-        div {
-            margin-top: 10px;
-        }
+    div {
+      margin-top: 12px;
+    }
 
-        .button1 {
-            border-radius: 6px;
-            border-color: #95acd2;
-            background-color: #edf6fd;
-            font-weight: bold;
-        }
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
-        .button2 {
-            border-radius: 6px;
-            border-color: #5a7830;
-            background-color: #eaf7db;
-            width: 100px;
-            font-weight: bold;
-            margin-top: 40px;
-        }
+    .button3,
+    .button1,
+    .button2,
+    .button4 {
+      margin-left: 10px;
+      font-size: 13px;
+      border-radius: 6px;
+      background-color: #cce7fb;
+    }
 
-        input {
-            width: 50px;    
-        }
-        .main {
-            width: 500px;
-            margin: 200px auto 0 auto;
-        }
-    </style>
+    input {
+      width: 50px;
+      border: 1px solid #95acd2;
+      border-radius: 15%;
+      text-align: center;
+    }
+
+    #file-input,
+    #file-input1,
+    #file-input2,
+    #file-input3,
+    #file-input4 {
+      display: none;
+    }
+
+    table {
+      visibility: hidden;
+    }
+
+    .generate {
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+  </style>
 </head>
+
 <body>
-    <h1>SpatialCTD Converter Tool</h1>
-    <div class="main">
-        <div>
-            <span>Coordinates of single-cells local in FOV file</span>
-            <button class="button1">Upload</button>
-        </div>
-        <div>
-            <span>Coordinates of FOVs file</span>
-            <button class="button1">Upload</button>
-        </div>
-        <div>
-            <span>Gene expression at single-cell level file (Optional)</span>
-            <button class="button1">Upload</button>
-        </div>
-        <div>
-            <span>Cell type at single-cell level file (Optional)</span>
-            <button class="button1">Upload</button>
-        </div>
-        <div>
-            <span>FOV size:</span>
-            <input/>
-            <span>Pixel *</span>
-            <input/>
-            <span>Pixel</span>
-        </div>
-        <div>
-            <span>Pseudo spots split in one FOV:</span>
-            <input/>
-            <span>*</span>
-            <input/>
-        </div>
+  <h1>SpatialCTD Converter Tool</h1>
+  <div class="content">
+    <div>
+      <span>Coordinates of single-cells local in FOV file</span>
+      <label class="button1">
+        <input type="file" id="file-input1" value="Upload">
+        Upload
+      </label>
     </div>
-    <button class="button2">Generate</button>
+    <div>
+      <span>Coordinates of FOVs file</span>
+      <label class="button2">
+        <input type="file" id="file-input2" value="Upload">
+        Upload
+      </label>
+    </div>
+    <div>
+      <span>Gene expression at single-cell level file (Optional) (2MB limited)</span>
+      <label class="button3">
+        <input type="file" id="file-input3" value="Upload">
+        Upload
+      </label>
+    </div>
+    <div>
+      <span>Cell type at single-cell level file (Optional)</span>
+      <label class="button4">
+        <input type="file" id="file-input4" value="Upload">
+        Upload
+      </label>
+    </div>
+    <div>
+      <span>FOV size:</span>
+      <input id="fov1" placeholder=5472 />
+      <span>Pixel *</span>
+      <input id="fov2" placeholder=3648 />
+      <span>Pixel</span>
+    </div>
+    <div>
+      <span>Pseudo spots split in one FOV:</span>
+      <input id="fov3" placeholder=4 />
+      <span>*</span>
+      <input id="fov4" placeholder=5 />
+    </div>
+    <button class="generate" id="process-btn">Generate</button>
+    <!-- <label id="downloading" style="display: none;">...</label> -->
+    <a href="#" download="result.csv" id="download-link" style="display: none;">Download Pseudo Spots Spatial location file</a>
+    <a href="#" download="result_gene.csv" id="download-link1" style="display: none;">Download Mapping relationship file between cell id and pseudo spot id</a>
+    <a href="#" download="result_cell_type.csv" id="download-link2" style="display: none;">Download Pseudo Spots type file</a>
+    <a href="#" download="result_fov_cell_type.csv" id="download-link3" style="display: none;">Download Pseudo Spot Expression file between cell id and FOV id</a>
+  </div>
+  <table id="result-table"></table>
+
 </body>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const fileInput = document.getElementById("file-input");
+    const processBtn = document.getElementById("process-btn");
+    const downloadLink = document.getElementById("download-link");
+    const downloadLink1 = document.getElementById("download-link1");
+    const downloadLink2 = document.getElementById("download-link2");
+    const downloadLink3 = document.getElementById("download-link3");
+
+    const hint = document.getElementById("downloading");
+    const resultTable = document.getElementById("result-table");
+    const button1 = document.getElementById("file-input1");
+    const button2 = document.getElementById("file-input2");
+    const button3 = document.getElementById("file-input3");
+    const button4 = document.getElementById("file-input4");
+    const fov_width = parseInt(document.getElementById("fov1"));
+    const fov_height = parseInt(document.getElementById("fov2"));
+    const num_rows = parseInt(document.getElementById("fov3"));
+    const num_columns = parseInt(document.getElementById("fov4"));
+
+    let data = null;
+    let single_cell = null;
+    let fov_data = null;
+    let fov_coord = null;
+    let gene_data = null;
+    let cell_type = null;
+    let fov_cell_type = null;
+    // const fov_width = 5472;
+    // const fov_height = 3648;
+    // const num_rows = 4;
+    // const num_columns = 5;
+    let result = null;
+    var fov_size = [5472, 3648];
+    var fov = [4, 5];
+
+    button1.addEventListener("change", () => {
+      const file = button1.files[0];
+      Papa.parse(file, {
+        header: true,
+        complete: (results) => {
+          single_cell = results.data;
+          alert("Coordinates of single-cells local in FOV file uploaded successfully!")
+        }
+      });
+    });
+
+    button2.addEventListener("change", () => {
+      const file = button2.files[0];
+      Papa.parse(file, {
+        header: true,
+        complete: (results) => {
+          fov_coord = results.data;
+          alert("Coordinates of FOVs file uploaded successfully!")
+        }
+      });
+    });
+
+    button3.addEventListener("change", () => {
+      const file = button3.files[0];
+      var maxSize = 2 * 1024 * 1024;
+      if(file.size > maxSize){
+        alert("File size is too large, please upload a smaller file!");
+        return;
+      }
+      Papa.parse(file, {
+        header: true,
+        complete: (results) => {
+          gene_data = results.data;
+          alert("Gene expression at single-cell level file uploaded successfully!")
+        }
+      });
+    });
+
+    button4.addEventListener("change", () => {
+      const file = button4.files[0];
+      Papa.parse(file, {
+        header: true,
+        complete: (results) => {
+          cell_type = results.data;
+          alert("Cell type at single-cell level file uploaded successfully!")
+        }
+      });
+    });
+
+    processBtn.addEventListener("click", () => {
+      if(!fov_coord){
+        alert("Please upload the coordinates of FOVs file!")
+        return;
+      }
+      if(!single_cell){
+        alert("Please upload the coordinates of single-cells local in FOV file!")
+        return;
+      }
+
+      setTimeout(() => {
+          let result0 = spot_position(fov_coord);
+          downloadLink.href = createResultCsv(result0);
+          downloadLink.style.display = "block";
+          let result1 = get_cell_id_map(single_cell);
+          downloadLink1.href = createResultCsv(result1);
+          downloadLink1.style.display = "block";
+      },1);
+
+      if(cell_type){
+        setTimeout(() => {
+          let result2 = get_spot_merged_types(single_cell, cell_type);
+          downloadLink2.href = createResultCsv(result2);
+          downloadLink2.style.display = "block";
+        },1);
+      }
+
+      if(gene_data){
+        setTimeout(() => {
+          let result3 = get_merged_gene_expression(single_cell, gene_data);
+          downloadLink3.href = createResultCsv(result3);
+          downloadLink3.style.display = "block";
+        },1);
+      }
+    });
+
+    function map_x_y_into_spot(x, y) {
+      var spot_width = fov_size[0] / fov[0];
+      var spot_height = fov_size[1] / fov[1];
+      var spot_row = Math.floor(y / spot_height) + 1;
+      var spot_column = Math.floor(x / spot_width) + 1;
+      var spot_id = (spot_row - 1) * fov[0] + spot_column;
+      return parseInt(spot_id);
+    }
+
+    function get_spot_center(spot_id, fov_center_x, fov_center_y) {
+
+      var spot_width = fov_size[0] / fov[0];
+      var spot_height = fov_size[1] / fov[1];
+      var spot_row = Math.floor((spot_id - 1) / fov[0]) + 1;
+      var spot_column = ((spot_id - 1) % fov[0]) + 1;
+      var spot_center_x = (spot_column - 1) * spot_width + spot_width / 2;
+      var spot_center_y = (spot_row - 1) * spot_height + spot_height / 2;
+      // 保留两位小数
+      var x = spot_center_x + Number(fov_center_x);
+      var y = spot_center_y + Number(fov_center_y);
+      x = Math.round(x * 1000) / 1000;
+      y = Math.round(y * 1000) / 1000;
+      return [x, y];
+    }
+
+    function get_fov_spots_coords(fov_data, fov_width, fov_height, num_rows, num_columns) {
+      const spot_width = fov_width / num_columns;
+      const spot_height = fov_height / num_rows;
+      const spots = [];
+      for (let i = 0; i < num_columns; i++) {
+        for (let j = 0; j < num_rows; j++) {
+          const spot_id = j * num_columns + i + 1;
+          const cx = i * spot_width + spot_width / 2;
+          const cy = j * spot_height + spot_height / 2;
+          spots.push({ spot_centerX: cx, spot_centerY: cy, spot_id });
+        }
+      }
+      return spots;
+    }
+
+    function spot_position(fov_data) {
+      var all_data = [["fov", "spot_id", "x_global_px", "y_global_px"]];
+      for (var i = 0; i < fov_data.length - 1; i++) {
+        var fov = fov_data[i]['fov'];
+        var fov_center = [fov_data[i]['x_global_px'], fov_data[i]['y_global_px']];
+        for (var spot_id = 1; spot_id <= 20; spot_id++) {
+          var spot_center = get_spot_center(spot_id, fov_center[0], fov_center[1]);
+          all_data.push([fov, spot_id, spot_center[0], spot_center[1]]);
+        }
+      }
+      return all_data;
+    }
+
+    function get_cell_id_map(meta_data) {
+      var cell_id_map = {};
+      var all_data = [['fov', 'cell_id', 'spot_id']]
+      for (var i = 0; i < meta_data.length; i++) {
+        var cell_id = meta_data[i]['cell_ID'];
+        var local_x = meta_data[i]['CenterX_local_px'];
+        var local_y = meta_data[i]['CenterY_local_px'];
+        var spot_id = map_x_y_into_spot(local_x, local_y);
+        all_data.push([meta_data[i]['fov'], cell_id, spot_id]);
+      }
+      return all_data;
+    }
+
+    function get_fov_cell_id_type_map(cell_type) {
+      var fov_cell_id_type_map = {};
+      var all_kind_cell_type = new Set();
+      for (var i = 0; i < cell_type.length; i++) {
+        var fov = cell_type[i]['fov'];
+        var cell_id = cell_type[i]['cell_ID'];
+        var currrent_cell_type = cell_type[i]['cell_type'];
+        all_kind_cell_type.add(currrent_cell_type);
+        if (fov_cell_id_type_map[fov]) {
+          fov_cell_id_type_map[fov][cell_id] = currrent_cell_type;
+        } else {
+          fov_cell_id_type_map[fov] = {};
+          fov_cell_id_type_map[fov][cell_id] = currrent_cell_type;
+        }
+      }
+      return [fov_cell_id_type_map, all_kind_cell_type]
+    }
+
+    function get_spot_merged_types(meta_data, type_data) {
+      var [fov_cell_id_type_map, all_kind_cell_type] = get_fov_cell_id_type_map(type_data);
+      var spot_merged_types = {};
+      var a_map = {};
+      all_kind_cell_type.forEach(function (item) {
+        a_map[item] = 0;
+      });
+      // 'fov', 'spot_id', all_kind_cell_type
+      var all_data = [['fov', 'spot_id', ...all_kind_cell_type]];
+      for (var i = 0; i < meta_data.length; i++) {
+        var fov = meta_data[i]['fov'];
+        var cell_id = meta_data[i]['cell_ID'];
+        var local_x = meta_data[i]['CenterX_local_px'];
+        var local_y = meta_data[i]['CenterY_local_px'];
+        var spot_id = map_x_y_into_spot(local_x, local_y);
+
+        var current_cell_type = fov_cell_id_type_map[fov][cell_id];
+
+        if (!all_kind_cell_type.has(current_cell_type)) {
+          continue;
+        }
+
+        if (spot_merged_types[fov]) {
+          if (spot_merged_types[fov][spot_id]) {
+            spot_merged_types[fov][spot_id][current_cell_type] += 1;
+          } else {
+            spot_merged_types[fov][spot_id] = deepClone(a_map);
+            spot_merged_types[fov][spot_id][current_cell_type] += 1;
+          }
+        } else {
+          spot_merged_types[fov] = {};
+          spot_merged_types[fov][spot_id] = deepClone(a_map);
+          spot_merged_types[fov][spot_id][current_cell_type] += 1;
+        }
+      }
+      for (var fov in spot_merged_types) {
+        for (var spot_id in spot_merged_types[fov]) {
+          all_data.push([fov, spot_id, ...Object.values(spot_merged_types[fov][spot_id])]);
+        }
+      }
+      return all_data;
+    }
+
+    function get_total_type(meta_data, cell_type) {
+      var meta_spot_data = get_cell_id_map(meta_data);
+      meta_spot_data.slice(1, meta_spot_data.length).forEach(function (item) {
+        var fov = item[0];
+        var cell_id = item[1];
+        var spot_id = item[2];
+        if (cell_id_map[cell_id]) {
+          cell_id_map[cell_id].push([fov, spot_id]);
+        } else {
+          cell_id_map[cell_id] = [[fov, spot_id]];
+        }
+      })
+      pass
+    }
+
+    function createResultCsv(result) {
+      const csv = Papa.unparse(result);
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      if (navigator.msSaveBlob) {
+          navigator.msSaveBlob(blob, "result.csv");
+        } else {
+          return URL.createObjectURL(blob);
+        }
+      };
+
+    function deepClone(obj) {
+    if (obj === null || typeof obj !== 'object') {
+      return obj;
+    }
+    var newObj = obj.constructor();
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        newObj[key] = deepClone(obj[key]);
+      }
+    }
+    return newObj;
+  }
+
+    function get_fov_cell_id_expression_map(gene_expression){
+      var fov_cell_id_expression_map = {};
+      for (var i = 0; i < gene_expression.length; i++) {
+        var fov = gene_expression[i]['fov'];
+        var cell_id = gene_expression[i]['cell_ID'];
+        var values = Object.values(gene_expression[i]);
+        var expression = values.slice(2, values.length);
+        // expression to float
+        expression = expression.map(function (item) {
+          return parseFloat(item);
+        });
+        if (fov_cell_id_expression_map[fov]) {
+          fov_cell_id_expression_map[fov][cell_id] = expression;
+        } else {
+          fov_cell_id_expression_map[fov] = {};
+          fov_cell_id_expression_map[fov][cell_id] = expression;
+        }
+      }
+      return fov_cell_id_expression_map;
+    }
+
+    function handle_agg(alist,blist,ctype="SUM"){
+      if(ctype == "SUM"){
+        return alist.map((x, i) => x + blist[i]);
+      }
+    }
+
+    function get_merged_gene_expression(meta_data, gene_expression) {
+      var all_keys = Object.keys(gene_expression[0]);
+      var fov_cell_id_expression_map = get_fov_cell_id_expression_map(gene_expression);
+      var all_data = [['fov', 'spot_id', ...all_keys.slice(2, all_keys.length)]]; // 'fov', 'spot_id', 'gene1', 'gene2', ...
+      var data_map = {};
+      for (var i = 0; i < meta_data.length; i++) {
+        var fov = meta_data[i]['fov'];
+        var cell_id = meta_data[i]['cell_ID'];
+        var local_x = meta_data[i]['CenterX_local_px'];
+        var local_y = meta_data[i]['CenterY_local_px'];
+        var spot_id = map_x_y_into_spot(local_x, local_y);
+        // sums up the expression of the same gene
+        if(!fov_cell_id_expression_map[fov]){
+          continue;
+        }
+        if(!fov_cell_id_expression_map[fov][cell_id]){
+          continue;
+        }
+        var expression = fov_cell_id_expression_map[fov][cell_id];
+        if(!expression){
+          continue;
+        }
+        if (data_map[fov]) {
+          if (data_map[fov][spot_id]) {
+            data_map[fov][spot_id] = handle_agg(data_map[fov][spot_id], expression);
+          } else {
+            data_map[fov][spot_id] = expression;
+          }
+        } else {
+          data_map[fov] = {};
+          data_map[fov][spot_id] = expression;
+        }
+      }
+      for (var fov in data_map) {
+        for (var spot_id in data_map[fov]) {
+          all_data.push([fov, spot_id, ...data_map[fov][spot_id]]);
+        }
+      }
+      return all_data;
+    }
+
+});
+</script>
+
 </html>
