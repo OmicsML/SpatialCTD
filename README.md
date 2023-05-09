@@ -2,12 +2,13 @@
 
 ## SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology. [[paper]](https://www.biorxiv.org/content/10.1101/2023.04.11.536333v1)[[supplementary]](https://www.biorxiv.org/content/10.1101/2023.04.11.536333v1.supplementary-material)
 
-### GNNDeconvolver Installation and Running
-
-We have made jupiter notebooks with detailed instructions for GNNDeconvolver running. Please refer to the jupiter notebooks under GNNDeconvolver folder.
 
 ## NEWS
 * [04/2023] Human Lung and Liver datasets in SpatialCTD v1 are released!
+
+## GNNDeconvolver Installation and Running
+
+We have made jupiter notebooks with detailed instructions for GNNDeconvolver running. Please refer to the jupiter notebooks under GNNDeconvolver folder.
 
 ## SpatialCTD
 
