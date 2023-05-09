@@ -1,5 +1,0 @@
-1. Lung5-1, 2, 3
-   Lung 12, 13
-   (Old use coordinate)
-
-2. Rest: pixel coordinates
