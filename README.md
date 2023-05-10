@@ -4,7 +4,7 @@
 
 
 ## NEWS
-* [05/2023] Human Kidney dataset in SpatialCTD v1 are released!
+* [05/2023] Human Kidney dataset in SpatialCTD v1 is released!
 * [04/2023] Human Lung and Liver datasets in SpatialCTD v1 are released!
 
 ## GNNDeconvolver Installation and Running
