@@ -4,9 +4,6 @@
 
 ##  The official repository for "SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology"
 
-## NEWS
-* [05/2023] Human Kidney dataset in SpatialCTD v1 is released!
-* [04/2023] Human Lung and Liver datasets in SpatialCTD v1 are released!
 
 ## GNNDeconvolver Installation and Running
 
@@ -52,13 +49,11 @@ A few required inputs are as below:
 If you find our work useful in your research, please consider citing our SpatialCTD paper:
 
 ```bibtex
-@article{ding2023spatialctd,
-  title={SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology},
-  author={Ding, Jiayuan and Venegas, Julian and Lu, Qiaolin and Wang, Yixin and Wu, Lidan and Jin, Wei and Wen, Hongzhi and Liu, Renming and Tang, Wenzhuo and Li, Zhaoheng and others},
-  journal={bioRxiv},
-  pages={2023--04},
-  year={2023},
-  publisher={Cold Spring Harbor Laboratory}
-}
+@article{ding2024spatialctd,
+  title={SpatialCTD: A Large-Scale Tumor Microenvironment Spatial Transcriptomic Dataset to Evaluate Cell Type Deconvolution for Immuno-Oncology},
+  author={Ding, Jiayuan and Li, Lingxiao and Lu, Qiaolin and Venegas, Julian and Wang, Yixin and Wu, Lidan and Jin, Wei and Wen, Hongzhi and Liu, Renming and Tang, Wenzhuo and others},
+  journal={Journal of Computational Biology},
+  year={2024},
+  publisher={Mary Ann Liebert, Inc., publishers 140 Huguenot Street, 3rd Floor New~…}
 }
 ```
