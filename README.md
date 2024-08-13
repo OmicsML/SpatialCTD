@@ -1,6 +1,6 @@
 # SpatialCTD v1
 
-## SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology. [[paper]](https://www.biorxiv.org/content/10.1101/2023.04.11.536333v1)[[supplementary]](https://www.biorxiv.org/content/10.1101/2023.04.11.536333v1.supplementary-material)
+## SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology. [[paper]](https://www.liebertpub.com/doi/full/10.1089/cmb.2024.0532?casa_token=_P3IPFNlLXEAAAAA%3Ag8fIyF22kRmCZv_wADNUCS0z3sdgdqCeFe93mL7UC7jf7j1P9juxBTgHU4on1y58lpSqtEBTdZFXxQ)
 
 ##  The official repository for "SpatialCTD: a large-scale TME spatial transcriptomic dataset to evaluate cell type deconvolution for immuno-oncology"
 
