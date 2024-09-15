@@ -2,6 +2,19 @@
 
 ## SpatialCTD is officially on [[Journal of Computational Biology]](https://home.liebertpub.com/publications/journal-of-computational-biology/31)). (paper link: [[paper]](https://www.liebertpub.com/doi/full/10.1089/cmb.2024.0532?casa_token=_P3IPFNlLXEAAAAA%3Ag8fIyF22kRmCZv_wADNUCS0z3sdgdqCeFe93mL7UC7jf7j1P9juxBTgHU4on1y58lpSqtEBTdZFXxQ))
 
+## Citation
+
+If you find our work useful in your research, please consider citing our SpatialCTD paper:
+
+```bibtex
+@article{ding2024spatialctd,
+  title={SpatialCTD: A Large-Scale Tumor Microenvironment Spatial Transcriptomic Dataset to Evaluate Cell Type Deconvolution for Immuno-Oncology},
+  author={Ding, Jiayuan and Li, Lingxiao and Lu, Qiaolin and Venegas, Julian and Wang, Yixin and Wu, Lidan and Jin, Wei and Wen, Hongzhi and Liu, Renming and Tang, Wenzhuo and others},
+  journal={Journal of Computational Biology},
+  year={2024},
+  publisher={Mary Ann Liebert, Inc., publishers 140 Huguenot Street, 3rd Floor New~…}
+}
+```
 
 ## GNNDeconvolver Installation and Running
 
@@ -42,16 +55,4 @@ A few required inputs are as below:
 <img src="/images/GNN.jpg" alt="pdf-image" width="50%">
 
 
-## Citation
 
-If you find our work useful in your research, please consider citing our SpatialCTD paper:
-
-```bibtex
-@article{ding2024spatialctd,
-  title={SpatialCTD: A Large-Scale Tumor Microenvironment Spatial Transcriptomic Dataset to Evaluate Cell Type Deconvolution for Immuno-Oncology},
-  author={Ding, Jiayuan and Li, Lingxiao and Lu, Qiaolin and Venegas, Julian and Wang, Yixin and Wu, Lidan and Jin, Wei and Wen, Hongzhi and Liu, Renming and Tang, Wenzhuo and others},
-  journal={Journal of Computational Biology},
-  year={2024},
-  publisher={Mary Ann Liebert, Inc., publishers 140 Huguenot Street, 3rd Floor New~…}
-}
-```
